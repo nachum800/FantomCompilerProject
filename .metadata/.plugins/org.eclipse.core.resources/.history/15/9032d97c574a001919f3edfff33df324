@@ -1,0 +1,36 @@
+
+class VmParser {
+	
+	 Void parseFile(Str fileName,Str outputFile){
+		Str commentOut="//"	;
+		if(!fileName.endsWith(".vm")){
+			inFile := fileName.toUri.toFile;
+			if(!outputFile.endsWith(".asm"))
+				outputfile := outputFile +".asm";
+			outFile=outputFile.toUri.toFile;
+			inFile.eachLine |line| { 
+						if(line.startsWith("//"))   //Deals with comments
+							continue;
+						if(line.contains("//")){
+							index :=line.index("//")
+							line=line.split("//",true)[0];
+						}
+						line.trim();
+						
+				
+					} 
+						
+			
+		}	
+		else{
+			echo("Parser can only parse vM files...")
+		}
+		
+	}
+	
+	Void ConvertLineFromVmtoHack(Str command,File outFile){
+		
+		
+	}
+	
+}

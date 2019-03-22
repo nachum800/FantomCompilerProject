@@ -1,0 +1,37 @@
+!SESSION 2019-03-19 15:58:09.312 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_202
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.jface.text 4 0 2019-03-19 17:14:16.867
+!MESSAGE Unexpected runtime error while computing a text hover
+!STACK 0
+sys::InterruptedErr: java.lang.InterruptedException
+	at fan.sys.Err.make(Err.java:41)
+	at fan.concurrent.Future.get(Future.java:126)
+	at fan.concurrent.Future.get(Future.java:75)
+	at fan.f4core.FantomProjectManager.runInManager(FantomProjectManager.fan:67)
+	at fan.f4core.FantomProjectManager.get(FantomProjectManager.fan:57)
+	at fan.f4core.DltkNamespace.podName(DltkNamespace.fan:33)
+	at fan.f4core.DltkNamespace$groupFragments$0.doCall(DltkNamespace.fan:24)
+	at fan.f4core.DltkNamespace$groupFragments$0.call(DltkNamespace.fan:23)
+	at fan.sys.List.each(List.java:588)
+	at fan.f4core.DltkNamespace.groupFragments(DltkNamespace.fan:23)
+	at fan.f4core.DltkNamespace.make$(DltkNamespace.fan:15)
+	at fan.f4core.DltkNamespace.make(DltkNamespace.fan:12)
+	at fan.f4core.FantomProject.ns(FantomProject.fan:222)
+	at fan.f4core.ParseUtil.ns(ParseUtil.fan:59)
+	at fan.f4core.FanSourceParser.parse(FanSourceParser.fan:13)
+	at org.eclipse.dltk.core.SourceParserUtil.parse(SourceParserUtil.java:149)
+	at fan.f4core.SelectionEngine.select(SelectionEngine.fan:27)
+	at org.eclipse.dltk.internal.core.Openable.codeSelect(Openable.java:679)
+	at org.eclipse.dltk.internal.core.Openable.codeSelectAll(Openable.java:703)
+	at org.eclipse.dltk.internal.core.AbstractSourceModule.codeSelectAll(AbstractSourceModule.java:104)
+	at org.eclipse.dltk.internal.core.AbstractSourceModule.codeSelectAll(AbstractSourceModule.java:97)
+	at org.eclipse.dltk.internal.core.AbstractSourceModule.codeSelectAll(AbstractSourceModule.java:1)
+	at org.eclipse.dltk.internal.ui.text.hover.AbstractScriptEditorTextHover.getHoverInfo(AbstractScriptEditorTextHover.java:145)
+	at org.eclipse.dltk.internal.ui.text.hover.BestMatchHover.getHoverInfo(BestMatchHover.java:109)
+	at org.eclipse.dltk.internal.ui.text.hover.EditorTextHoverProxy.getHoverInfo(EditorTextHoverProxy.java:71)
+	at org.eclipse.jface.text.TextViewerHoverManager$4.run(TextViewerHoverManager.java:167)
