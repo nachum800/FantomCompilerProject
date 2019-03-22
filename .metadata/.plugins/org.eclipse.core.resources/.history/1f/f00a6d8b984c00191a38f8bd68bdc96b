@@ -1,0 +1,9 @@
+
+class test {
+	static Void main(Str[] args)
+	{
+		VmParser parse := VmParser.make();
+		parse.parseFile("file:/C:/Users/nachu/Desktop/fantomFiles/StackTest.vm","StackTest.asm")
+		echo("parsing finished")
+	}
+}

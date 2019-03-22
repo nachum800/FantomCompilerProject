@@ -1,0 +1,150 @@
+
+class VmParser {
+	
+	
+	new make(){
+		
+		
+	}
+	
+	Map memorySegments:=[Str:Str]["local":"LCL", "argument":"ARG","this":"THIS","that":"THAT"];
+	
+	 Void parseFile(Str fileName,Str outputFile){
+		
+		if(fileName.endsWith(".vm")){
+			inFile := fileName.toUri.toFile;
+			if(!outputFile.endsWith(".asm"))
+				outputfile := outputFile +".asm";
+			File outFile :=outputFile.toUri.toFile;
+			memorySegments.add("static", fileName);
+			inFile.eachLine |line| { 
+						if(line.startsWith("//")  ||  line.isEmpty()) {
+							
+						}  //Deals with comments	
+						else {
+							Str command:=""
+							if(line.contains("//")){
+								index :=line.index("//")
+								line = line.split('/',true)[0];
+								}
+							line.trim();
+							convertLineFromVmtoHack(line,outFile);
+						
+							}
+					} 
+						
+			
+		}	
+		else{
+			echo("Parser can only parse vM files...")
+		}
+		
+	}
+	
+	Void convertLineFromVmtoHack(Str command,File outFile){
+		Str[] words:=command.split();
+		Str hackCommand := ""
+		switch(words[0]){
+			case "add": 
+				echo("add")
+			case "sub": 
+				echo("sub")
+			case "neg": 
+				echo("neg")
+			case "eq": 
+				echo("eq")
+			case "gt":  
+				echo("gt")
+			case "lt":  
+				echo("lt")
+			case "and": 
+				echo("and")
+			case "or":  
+				echo("or")
+			case "not": 
+				echo("not")
+			case "push":
+				if(words[1]=="constant"){
+					//syntax: push constant i
+					
+					// D = i
+					hackCommand = "@" + words[2] + "\n"
+					hackCommand = "D=A\n"
+					
+					//*SP = D
+					hackCommand = "@SP\n" //A=0 
+					hackCommand = "A=M\n" // A equal to the address in memory indicated by the stack pointer
+					hackCommand = "M=D\n" // The value indicated by the stack pointer equal to D
+					//SP++
+					hackCommand = "D=A+1\n"
+					hackCommand = "@SP\n"
+					hackCommand = "M=D\n"
+					
+					
+					
+				}
+				else{
+					//syntax: push segment i
+					
+					mem =memorySegments[words[1]]
+					// D = M[*segment + i]
+					hackCommand =	"@words[1]/n"
+					hackCommand = "D=M/n"
+					hackCommand = "@words[2]/n"
+					hackCommand = "D = D+A/n"
+					hackCommand = "A = D/n"
+					hackCommand = "D = M/n"
+
+					// *SP = D
+					hackCommand = "@SP/n"
+					hackCommand = "A=M/n"
+					hackCommand = "M=D/n"
+					
+					//SP++
+					hackCommand = "@SP/n"
+					hackCommand = "M=M+1/n"
+				}
+			case "pop": 
+				if(words[1]=="constant"){
+					Str temp := "@"+words[2]+"\nD=A\n";
+					outFile.out(true).printLine(temp).close
+				}
+				else{
+					index := getMemoryStartingPoint(words[1])
+					echo("pop")
+				}
+			
+			default: 
+				echo("Command unknown");
+		
+		}
+		
+	}
+	
+	Int getMemoryStartingPoint(Str mem){
+		switch(mem){
+			case "local": 
+				echo("local")
+			case "argument":
+				echo("argument")
+			case "this":
+				echo("this")
+			case "that": 
+				echo("that")
+			case "static": 
+				echo("static")
+			case "pointer":
+				echo("pointer")
+			default: 
+				echo("Command unknown");
+		}
+			
+		return 0;// TODO: implement
+		
+	}
+	Void writeHackPush(File outFile){
+		
+		
+	}
+	
+}
