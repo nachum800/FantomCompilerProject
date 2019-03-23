@@ -80,7 +80,7 @@ class VmParser {
 				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				hackCommand += "@SP\n"
 				hackCommand += "A=M-1\n"
-				hackCommand += "M=D\n"
+				hackCommand += "M=D-1\n"
 				m_compare++
 			
 			case "gt":  					//GT
@@ -89,17 +89,17 @@ class VmParser {
 				hackCommand += "D=M\n"
 				hackCommand += "A=A-1\n"
 				hackCommand += "D=M-D\n"
-				hackCommand += "@GT"+ m_compare.toStr()+"\n"
+				hackCommand += "@EQ"+ m_compare.toStr()+"\n"
 				hackCommand += "D;JGT\n"
 				hackCommand += "D=0\n"
-				hackCommand += "@doneGT"+m_compare.toStr()+"\n"
+				hackCommand += "@doneEQ"+m_compare.toStr()+"\n"
 				hackCommand += "0;JMP\n"
-				hackCommand += "(GT"+m_compare.toStr()+")\n"
+				hackCommand += "(EQ"+m_compare.toStr()+")\n"
 				hackCommand += "D=-1\n"
-				hackCommand += "(doneGT"+m_compare.toStr()+")\n"
+				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				hackCommand += "@SP\n"
 				hackCommand += "A=M-1\n"
-				hackCommand += "M=D\n"
+				hackCommand += "M=D-1\n"
 				m_compare++
 			
 			case "lt":  					//LT
@@ -108,17 +108,17 @@ class VmParser {
 				hackCommand += "D=M\n"
 				hackCommand += "A=A-1\n"
 				hackCommand += "D=M-D\n"
-				hackCommand += "@LT"+ m_compare.toStr()+"\n"
+				hackCommand += "@EQ"+ m_compare.toStr()+"\n"
 				hackCommand += "D;JLT\n"
 				hackCommand += "D=0\n"
-				hackCommand += "@doneLT"+m_compare.toStr()+"\n"
+				hackCommand += "@doneEQ"+m_compare.toStr()+"\n"
 				hackCommand += "0;JMP\n"
-				hackCommand += "(LT"+m_compare.toStr()+")\n"
+				hackCommand += "(EQ"+m_compare.toStr()+")\n"
 				hackCommand += "D=-1\n"
-				hackCommand += "(doneLT"+m_compare.toStr()+")\n"
+				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				hackCommand += "@SP\n"
 				hackCommand += "A=M-1\n"
-				hackCommand += "M=D\n"
+				hackCommand += "M=D-1\n"
 				m_compare++
 			
 			case "and": 					//AND

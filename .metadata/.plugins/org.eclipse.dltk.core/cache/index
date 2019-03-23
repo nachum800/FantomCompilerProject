@@ -1848,7 +1848,7 @@
   <entries path="C:/Users/nachu/AppData/Local/fantom-1.0.71/lib/fan/testSys.pod/TypeTest.fcode" lastAccessTime="1553195939288">
     <attributes name="indexed" location="2838196607/1572237357/1231.idx"/>
   </entries>
-  <entries path="C:/Users/nachu/Desktop/PLproject/ex1/fan" timestamp="1553008712731" lastAccessTime="1553255578576">
+  <entries path="C:/Users/nachu/Desktop/PLproject/ex1/fan" timestamp="1553008712731" lastAccessTime="1553373896237">
     <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/2688187825/1235.idx"/>
   </entries>
   <entries path="C:/Users/nachu/AppData/Local/fantom-1.0.71/lib/fan/compilerJava.pod/JavaPrimitives.fcode" lastAccessTime="1553195939319">
@@ -2331,4 +2331,5 @@
   <entries path="C:/Users/nachu/AppData/Local/fantom-1.0.71/lib/fan/syntax.pod/SyntaxHtmlWriter.fcode" lastAccessTime="1553195939664">
     <attributes name="indexed" location="2838196607/4018691483/1555.idx"/>
   </entries>
+  <entries path="C:/Users/nachu/Desktop/PLproject/ex1/fan/test.fan" timestamp="1553372475545" lastAccessTime="1553372476067"/>
 </cache:CacheIndex>

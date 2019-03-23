@@ -17,7 +17,7 @@ class VmParser {
 			if(!outputFile.endsWith(".asm"))
 				outputfile := outputFile +".asm";
 			File outFile :=outputFile.toUri.toFile;
-			memorySegments.add("static", outFile.basename());
+			memorySegments.add("static", fileName);
 			inFile.eachLine |line| { 
 						if(line.startsWith("//")  ||  line.isEmpty()) {
 							
@@ -66,59 +66,89 @@ class VmParser {
 				hackCommand +="M=-M\n"		
 			case "eq":   				//EQ
 				hackCommand += "@SP\n"
-				hackCommand += "AM=M-1\n"
+				hackCommand += "M=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "D=M\n"
 				hackCommand += "A=A-1\n"
 				hackCommand += "D=M-D\n"
 				hackCommand += "@EQ"+ m_compare.toStr()+"\n"
 				hackCommand += "D;JEQ\n"
-				hackCommand += "D=0\n"
-				hackCommand += "@doneEQ"+m_compare.toStr()+"\n"
+				hackCommand += "@0\n"
+				hackCommand += "D=-A\n"
+				hackCommand += "@SP\n"
+				hackCommand += "A=M\n"
+				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "@doneEQ"+m_compare.toStr()+"\n" 
 				hackCommand += "0;JMP\n"
 				hackCommand += "(EQ"+m_compare.toStr()+")\n"
-				hackCommand += "D=-1\n"
-				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
+				hackCommand += "@1\n"
+				hackCommand += "D=A\n"
 				hackCommand += "@SP\n"
-				hackCommand += "A=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				m_compare++
 			
 			case "gt":  					//GT
 				hackCommand += "@SP\n"
-				hackCommand += "AM=M-1\n"
+				hackCommand += "M=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "D=M\n"
 				hackCommand += "A=A-1\n"
 				hackCommand += "D=M-D\n"
-				hackCommand += "@GT"+ m_compare.toStr()+"\n"
+				hackCommand += "@EQ"+m_compare.toStr()+"\n"
 				hackCommand += "D;JGT\n"
-				hackCommand += "D=0\n"
-				hackCommand += "@doneGT"+m_compare.toStr()+"\n"
-				hackCommand += "0;JMP\n"
-				hackCommand += "(GT"+m_compare.toStr()+")\n"
-				hackCommand += "D=-1\n"
-				hackCommand += "(doneGT"+m_compare.toStr()+")\n"
+				hackCommand += "@0\n"
+				hackCommand += "D=-A\n"
 				hackCommand += "@SP\n"
-				hackCommand += "A=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "@doneEQ"+m_compare.toStr()+"\n" 
+				hackCommand += "0;JMP\n"
+				hackCommand += "(EQ"+m_compare.toStr()+")\n"
+				hackCommand += "@1\n"
+				hackCommand += "D=A\n"
+				hackCommand += "@SP\n"
+				hackCommand += "A=M\n"
+				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				m_compare++
 			
 			case "lt":  					//LT
 				hackCommand += "@SP\n"
-				hackCommand += "AM=M-1\n"
+				hackCommand += "M=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "D=M\n"
 				hackCommand += "A=A-1\n"
 				hackCommand += "D=M-D\n"
-				hackCommand += "@LT"+ m_compare.toStr()+"\n"
+				hackCommand += "@EQ"+m_compare.toStr()+"\n"
 				hackCommand += "D;JLT\n"
-				hackCommand += "D=0\n"
-				hackCommand += "@doneLT"+m_compare.toStr()+"\n"
-				hackCommand += "0;JMP\n"
-				hackCommand += "(LT"+m_compare.toStr()+")\n"
-				hackCommand += "D=-1\n"
-				hackCommand += "(doneLT"+m_compare.toStr()+")\n"
+				hackCommand += "@0\n"
+				hackCommand += "D=-A\n"
 				hackCommand += "@SP\n"
-				hackCommand += "A=M-1\n"
+				hackCommand += "A=M\n"
 				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "@doneEQ"+m_compare.toStr()+"\n" 
+				hackCommand += "0;JMP\n"
+				hackCommand += "(EQ"+m_compare.toStr()+")\n"
+				hackCommand += "@1\n"
+				hackCommand += "D=A\n"
+				hackCommand += "@SP\n"
+				hackCommand += "A=M\n"
+				hackCommand += "M=D\n"
+				hackCommand += "@SP\n"
+				hackCommand += "M=M+1\n"
+				hackCommand += "(doneEQ"+m_compare.toStr()+")\n"
 				m_compare++
 			
 			case "and": 					//AND
@@ -152,7 +182,7 @@ class VmParser {
 			else if(words[1]=="static"){//syntax: push static i
 				mem :=memorySegments[words[1]]
 				hackCommand	+="@"+mem+"."+ words[2] +"\n"
-				hackCommand += "D=M\n"
+				hackCommand += "D=M/n"
 			}
 			
 			else if(words[1]=="pointer" || words[1]=="temp" ){//syntax: push pointer/temp i
@@ -182,13 +212,13 @@ class VmParser {
 					hackCommand += "M=D\n"
 								
 			case "pop": 								//POP
-				if(words[1]=="static"){//syntax: popstatic i
+				if(words[1]=="static"){//syntax: push static i
 				mem :=memorySegments[words[1]]
 				hackCommand +="@"+mem+"."+ words[2] +"\n"
-				hackCommand += "D=A\n"
+				hackCommand += "D=A/n"
 			}
 			
-			else if(words[1]=="pointer" || words[1]=="temp" ){//syntax: pop pointer/temp i
+			else if(words[1]=="pointer" || words[1]=="temp" ){//syntax: push pointer/temp i
 				mem :=memorySegments[words[1]]
 				hackCommand +="@"+mem+"\n"
 				hackCommand +="D=A\n"
