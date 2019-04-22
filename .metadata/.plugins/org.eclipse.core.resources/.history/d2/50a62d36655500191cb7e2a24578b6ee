@@ -1,0 +1,15 @@
+//Written by Shlomi Birs - 204179261
+//Nachum Shtauber -311604854
+
+
+class test {
+	static Void main(Str[] args)
+	{
+		VmParser parse := VmParser.make();
+		parse.bootStrap("StaticTest2.asm")
+		parse.parseFile("file:./Sys.vm","StaticTest2.asm")
+		parse.parseFile("file:./Class1.vm","StaticTest2.asm")
+		parse.parseFile("file:./Class2.vm","StaticTest2.asm")
+		echo("parsing finished")
+	}
+}

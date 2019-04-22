@@ -36,10 +36,7 @@ class VmParser {
 				outputfile := outputFile +".asm";
 			File outFile :=outputFile.toUri.toFile;
 			if(!memorySegments.containsKey("static"))
-				memorySegments.add("static", inFile.basename());
-			else{
-				memorySegments.set("static", inFile.basename());
-			}
+				memorySegments.add("static", outFile.basename());
 			inFile.eachLine |line| { 
 						if(line.startsWith("//")  ||  line.isEmpty()) {
 							

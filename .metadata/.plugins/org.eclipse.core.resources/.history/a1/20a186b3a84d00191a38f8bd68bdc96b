@@ -1,9 +1,0 @@
-
-class test {
-	static Void main(Str[] args)
-	{
-		VmParser parse := VmParser.make();
-		parse.parseFile("file:./StaticTest.vm","StaticTest")
-		echo("parsing finished")
-	}
-}
